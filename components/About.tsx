@@ -29,6 +29,8 @@ import {
   SiGit,
   SiAmazonaws,
   SiGooglecloud,
+  SiFlutter,
+  SiKotlin,
 } from 'react-icons/si'
 
 interface Skill {
@@ -177,9 +179,9 @@ export default function About() {
               </div>
             </div>
 
-            {/* Frameworks */}
+            {/* Frameworks and libraries */}
             <div>
-              <h4 className="text-xl font-semibold text-orange-500 mb-6">Frameworks</h4>
+              <h4 className="text-xl font-semibold text-orange-500 mb-6">Frameworks and libraries</h4>
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 sm:gap-6">
                 {[
                   { name: 'Vue', icon: SiVuedotjs, color: '#4FC08D' },
@@ -188,6 +190,30 @@ export default function About() {
                   { name: 'Node.js', icon: SiNodedotjs, color: '#339933' },
                   { name: 'Express', icon: SiExpress, color: '#000000' },
                   { name: 'Angular Material', icon: SiAngular, color: '#DD0031' },
+                ].map((tech) => {
+                  const Icon = tech.icon
+                  return (
+                    <div
+                      key={tech.name}
+                      className="flex flex-col items-center justify-center p-4 sm:p-5 bg-gray-800/50 rounded-lg border border-gray-700/50 hover:border-orange-500/50 transition-all group hover:scale-105 h-full min-h-[120px]"
+                    >
+                      <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mb-3 flex-shrink-0">
+                        <Icon className="text-3xl sm:text-4xl" style={{ color: tech.color }} />
+                      </div>
+                      <span className="text-white text-xs sm:text-sm text-center font-medium leading-tight">{tech.name}</span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Mobile Applications */}
+            <div>
+              <h4 className="text-xl font-semibold text-orange-500 mb-6">Mobile Applications</h4>
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 sm:gap-6">
+                {[
+                  { name: 'Flutter', icon: SiFlutter, color: '#02569B' },
+                  { name: 'Kotlin', icon: SiKotlin, color: '#7F52FF' },
                 ].map((tech) => {
                   const Icon = tech.icon
                   return (
