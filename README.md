@@ -4,7 +4,7 @@ Portafolio personal desarrollado con Next.js, TypeScript y Tailwind CSS, optimiz
 
 ##
 
-## 🛠️ Tecnologías
+##  Tecnologías
 
 - **Next.js 14** - Framework de React
 - **TypeScript** - Tipado estático
@@ -22,7 +22,3 @@ npm install
 ```bash
 npm run dev
 ```
-
-4. Abre [http://localhost:3000](http://localhost:3000) en tu navegador
-
-##
