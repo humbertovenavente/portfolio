@@ -15,10 +15,11 @@ interface ExperienceItem {
 const experiences: ExperienceItem[] = [
   {
     type: 'employment',
-    title: 'Project Manager & Full Stack Developer',
-    company: 'BEST ECO DESIGN',
-    period: 'Feb 2025 - Present',
-    description: 'I led software development project for U.S.-based company as a Project Manager, overseeing a team and solutions using the MERN stack and SCRUM methodology and full stack developer.',
+    title: 'AI Application Developer',
+    company: 'APPAREL LINKS',
+    period: 'Dec 2025 - Present',
+    description: 'I contribute to the continuous development and maintenance of the company’s workflows by building and integrating artificial intelligence solutions.',
+    logo: '/apparellinks.png',
   },
   {
     type: 'employment',
@@ -27,6 +28,14 @@ const experiences: ExperienceItem[] = [
     period: 'May 2025- Present',
     description: 'Freelance web developer with experience in HTML, CSS, JavaScript, and PostgreSQL databases, developing a project with AWS cloud integration for a company operating in Guatemala and providing system maintenance.',
     logo: '/imagen-y-color.jpg',
+  },
+  {
+    type: 'employment',
+    title: 'Project Manager & Full Stack Developer',
+    company: 'BEST ECO DESIGN',
+    period: 'Feb 2025 - Present',
+    description: 'I led software development project for U.S.-based company as a Project Manager, overseeing a team and solutions using the MERN stack and SCRUM methodology and full stack developer.',
+    logo: '/bestecodesign.jpeg',
   },
   {
     type: 'internship',

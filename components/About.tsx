@@ -1,9 +1,11 @@
 'use client'
 
 import Image from 'next/image'
-import { FaCode, FaPalette, FaMobile, FaRocket, FaDatabase, FaGitAlt, FaBox, FaLayerGroup, FaJava, FaTasks } from 'react-icons/fa'
+import { FaCode, FaPalette, FaMobile, FaRocket, FaDatabase, FaGitAlt, FaBox, FaLayerGroup, FaTasks } from 'react-icons/fa'
 import {
   SiPython,
+  SiJavascript,
+  SiC,
   SiCplusplus,
   SiHaskell,
   SiPhp,
@@ -13,12 +15,14 @@ import {
   SiNextdotjs,
   SiExpress,
   SiAngular,
+  SiFastapi,
   SiMysql,
   SiPostgresql,
   SiOracle,
   SiMongodb,
   SiMicrosoftsqlserver,
   SiMicrosoft,
+  SiMicrosoftazure,
   SiVtex,
   SiPrometheus,
   SiJenkins,
@@ -83,7 +87,7 @@ export default function About() {
                   <h3 className="text-primary-400 text-sm uppercase tracking-wider font-semibold">About Me</h3>
                 </div>
                 <p className="text-gray-200 text-base sm:text-lg leading-relaxed text-justify">
-                  Computer Science & Systems Engineering student with hands-on experience in full-stack development, cloud integration (AWS, Google Cloud), database management, and low-code tools. I build efficient web applications using modern technologies such as JavaScript, MERN stack, Oracle APEX, Power Apps and app developer. I adapt quickly, solve technical problems effectively, and contribute to team projects with clear communication and strong ownership.
+                  Computer Science and Systems Engineering student with hands-on experience in full-stack development, cloud integration (AWS, Google Cloud, and Azure), database management, low-code tools, and building AI-driven solutions. I develop efficient, scalable, results-oriented web applications using modern technologies such as JavaScript, the MERN stack, Oracle APEX, Power Apps, and application development best practices. I adapt quickly to new environments, solve technical problems with an analytical mindset, and contribute to collaborative projects through clear communication, strong ownership, and a solid focus on artificial intelligence.
                 </p>
               </div>
             </div>
@@ -158,7 +162,8 @@ export default function About() {
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 sm:gap-6">
                 {[
                   { name: 'Python', icon: SiPython, color: '#3776AB' },
-                  { name: 'Java', icon: FaJava, color: '#ED8B00' },
+                  { name: 'JavaScript', icon: SiJavascript, color: '#F7DF1E' },
+                  { name: 'C', icon: SiC, color: '#A8B9CC' },
                   { name: 'C++', icon: SiCplusplus, color: '#00599C' },
                   { name: 'Haskell', icon: SiHaskell, color: '#5D4F85' },
                   { name: 'PHP', icon: SiPhp, color: '#777BB4' },
@@ -190,6 +195,8 @@ export default function About() {
                   { name: 'Node.js', icon: SiNodedotjs, color: '#339933' },
                   { name: 'Express', icon: SiExpress, color: '#000000' },
                   { name: 'Angular Material', icon: SiAngular, color: '#DD0031' },
+                  { name: 'FastAPI', icon: SiFastapi, color: '#009688' },
+                  { name: 'Blazor', icon: FaLayerGroup, color: '#512BD4' },
                 ].map((tech) => {
                   const Icon = tech.icon
                   return (
@@ -319,6 +326,7 @@ export default function About() {
                   { name: 'Git', icon: SiGit, color: '#F05032' },
                   { name: 'Amazon Web Services', icon: SiAmazonaws, color: '#232F3E' },
                   { name: 'Google Cloud', icon: SiGooglecloud, color: '#4285F4' },
+                  { name: 'Azure', icon: SiMicrosoftazure, color: '#0078D4' },
                 ].map((tech) => {
                   const Icon = tech.icon
                   return (
