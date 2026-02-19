@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from 'react'
 import { FaBars, FaTimes } from 'react-icons/fa'
+import { useLanguage } from '@/context/LanguageContext'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const { lang, toggleLang, t } = useLanguage()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,12 +18,12 @@ export default function Navbar() {
   }, [])
 
   const navItems = [
-    { href: '#home', label: 'Home' },
-    { href: '#about', label: 'About' },
-    { href: '#certifications', label: 'Certifications' },
-    { href: '#experience', label: 'Experience' },
-    { href: '#projects', label: 'Projects' },
-    { href: '#contact', label: 'Contact' },
+    { href: '#home', label: t('nav.home') },
+    { href: '#about', label: t('nav.about') },
+    { href: '#certifications', label: t('nav.certifications') },
+    { href: '#experience', label: t('nav.experience') },
+    { href: '#projects', label: t('nav.projects') },
+    { href: '#contact', label: t('nav.contact') },
   ]
 
   return (
@@ -44,23 +46,35 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="text-gray-300 hover:text-primary-400 px-3 py-2 rounded-md text-sm font-medium transition-colors relative group"
-                >
-                  {item.label}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-400 group-hover:w-full transition-all duration-300"></span>
-                </a>
-              ))}
-            </div>
+          <div className="hidden md:flex items-center gap-1">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="text-gray-300 hover:text-primary-400 px-3 py-2 rounded-md text-sm font-medium transition-colors relative group"
+              >
+                {item.label}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-400 group-hover:w-full transition-all duration-300"></span>
+              </a>
+            ))}
+            {/* Language Toggle */}
+            <button
+              onClick={toggleLang}
+              className="ml-4 px-3 py-1.5 rounded-full border border-primary-600/50 text-primary-400 hover:bg-primary-600/20 transition-all text-sm font-semibold flex items-center gap-1.5"
+            >
+              {lang === 'en' ? 'ES' : 'EN'}
+              <span className="text-xs">{lang === 'en' ? '🇪🇸' : '🇺🇸'}</span>
+            </button>
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center gap-3">
+            <button
+              onClick={toggleLang}
+              className="px-2.5 py-1 rounded-full border border-primary-600/50 text-primary-400 hover:bg-primary-600/20 transition-all text-sm font-semibold"
+            >
+              {lang === 'en' ? 'ES' : 'EN'}
+            </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-gray-300 hover:text-primary-400 focus:outline-none transition-colors"

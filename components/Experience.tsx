@@ -2,12 +2,13 @@
 
 import Image from 'next/image'
 import { FaBriefcase, FaGraduationCap, FaCalendarAlt } from 'react-icons/fa'
+import { useLanguage } from '@/context/LanguageContext'
 
 interface ExperienceItem {
-  title: string
+  titleKey: string
   company: string
-  period: string
-  description: string
+  periodKey: string
+  descKey: string
   type: 'employment' | 'internship'
   logo?: string
 }
@@ -15,63 +16,64 @@ interface ExperienceItem {
 const experiences: ExperienceItem[] = [
   {
     type: 'employment',
-    title: 'AI Application Developer',
+    titleKey: 'exp.apparel.title',
     company: 'APPAREL LINKS',
-    period: 'Dec 2025 - Present',
-    description: 'I contribute to the continuous development and maintenance of the company’s workflows by building and integrating artificial intelligence solutions.',
+    periodKey: 'exp.apparel.period',
+    descKey: 'exp.apparel.desc',
     logo: '/apparellinks.png',
   },
   {
     type: 'employment',
-    title: 'Freelance Web Developer',
+    titleKey: 'exp.imagen.title',
     company: 'IMAGEN Y COLOR',
-    period: 'May 2025- Present',
-    description: 'Freelance web developer with experience in HTML, CSS, JavaScript, and PostgreSQL databases, developing a project with AWS cloud integration for a company operating in Guatemala and providing system maintenance.',
+    periodKey: 'exp.imagen.period',
+    descKey: 'exp.imagen.desc',
     logo: '/imagen-y-color.jpg',
   },
   {
     type: 'employment',
-    title: 'Project Manager & Full Stack Developer',
+    titleKey: 'exp.besteco.title',
     company: 'BEST ECO DESIGN',
-    period: 'Feb 2025 - Present',
-    description: 'I led software development project for U.S.-based company as a Project Manager, overseeing a team and solutions using the MERN stack and SCRUM methodology and full stack developer.',
+    periodKey: 'exp.besteco.period',
+    descKey: 'exp.besteco.desc',
     logo: '/bestecodesign.jpeg',
   },
   {
     type: 'internship',
-    title: 'Development Intern',
+    titleKey: 'exp.bantrab.title',
     company: 'BANTRAB',
-    period: 'May 2025 - Aug 2025',
-    description: 'I participated in the creation of an application in the area of Digital Innovations using Microsoft Power Apps with SQL Server.',
+    periodKey: 'exp.bantrab.period',
+    descKey: 'exp.bantrab.desc',
     logo: '/bantrab.jpg',
   },
   {
     type: 'internship',
-    title: 'Cloud Solutions Intern',
+    titleKey: 'exp.myapp.title',
     company: 'MYAPPSOFTWARE',
-    period: 'May 2024 - Aug 2024',
-    description: 'I learned concepts related to cloud solutions using Amazon Web Services (AWS).',
+    periodKey: 'exp.myapp.period',
+    descKey: 'exp.myapp.desc',
     logo: '/myappsoftware.jpg',
   },
   {
     type: 'internship',
-    title: 'Frontend Developer Intern',
+    titleKey: 'exp.byte.title',
     company: 'BYTE',
-    period: 'May 2023 - Aug 2023',
-    description: 'I collaborated on a project utilizing Angular Material, focusing on creating user-friendly interface for web application. (Frontend)',
+    periodKey: 'exp.byte.period',
+    descKey: 'exp.byte.desc',
     logo: '/byte.jpg',
   },
   {
     type: 'internship',
-    title: 'Development Intern',
+    titleKey: 'exp.viscosity.title',
     company: 'VISCOSITY',
-    period: 'May 2022 - Aug 2022',
-    description: 'I contributed to the development project using Oracle APEX, enhancing the company\'s workflow and user interface.',
+    periodKey: 'exp.viscosity.period',
+    descKey: 'exp.viscosity.desc',
     logo: '/viscocity.jpg',
   },
 ]
 
 export default function Experience() {
+  const { t } = useLanguage()
   const employment = experiences.filter(exp => exp.type === 'employment')
   const internships = experiences.filter(exp => exp.type === 'internship')
 
@@ -82,21 +84,21 @@ export default function Experience() {
     >
       {/* Background decoration */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-primary-600/10 rounded-full blur-3xl"></div>
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-12 sm:mb-16">
           <div className="inline-flex items-center justify-center mb-3 sm:mb-4">
             <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary-600 rounded-full mr-2 sm:mr-3"></div>
             <span className="text-primary-400 text-xs sm:text-sm uppercase tracking-wider font-semibold">
-              My Journey
+              {t('exp.tag')}
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 sm:mb-4">
-            Work Experience
+            {t('exp.title')}
           </h2>
           <div className="w-16 sm:w-24 h-0.5 sm:h-1 bg-primary-600 mx-auto mb-6 sm:mb-8"></div>
           <p className="text-sm sm:text-base lg:text-lg text-gray-300 max-w-3xl mx-auto px-4">
-            A timeline of my professional experience and internships that have shaped my career.
+            {t('exp.description')}
           </p>
         </div>
 
@@ -105,7 +107,7 @@ export default function Experience() {
           <div>
             <div className="flex items-center mb-6 sm:mb-8">
               <FaBriefcase className="text-primary-400 text-2xl sm:text-3xl mr-3" />
-              <h3 className="text-2xl sm:text-3xl font-bold text-white">Employment</h3>
+              <h3 className="text-2xl sm:text-3xl font-bold text-white">{t('exp.employment')}</h3>
             </div>
             <div className="space-y-6 sm:space-y-8">
               {employment.map((exp, index) => (
@@ -129,7 +131,7 @@ export default function Experience() {
                         )}
                         <div className="flex-1">
                           <h4 className="text-lg sm:text-xl font-bold text-white mb-1">
-                            {exp.title}
+                            {t(exp.titleKey)}
                           </h4>
                           <p className="text-primary-400 text-sm sm:text-base font-semibold">
                             {exp.company}
@@ -138,11 +140,11 @@ export default function Experience() {
                       </div>
                       <div className="flex items-center text-gray-400 text-xs sm:text-sm">
                         <FaCalendarAlt className="mr-2 text-primary-400" />
-                        <span>{exp.period}</span>
+                        <span>{t(exp.periodKey)}</span>
                       </div>
                     </div>
                     <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                      {exp.description}
+                      {t(exp.descKey)}
                     </p>
                   </div>
                 </div>
@@ -154,7 +156,7 @@ export default function Experience() {
           <div>
             <div className="flex items-center mb-6 sm:mb-8">
               <FaGraduationCap className="text-primary-400 text-2xl sm:text-3xl mr-3" />
-              <h3 className="text-2xl sm:text-3xl font-bold text-white">Internships</h3>
+              <h3 className="text-2xl sm:text-3xl font-bold text-white">{t('exp.internships')}</h3>
             </div>
             <div className="space-y-6 sm:space-y-8">
               {internships.map((exp, index) => (
@@ -178,7 +180,7 @@ export default function Experience() {
                         )}
                         <div className="flex-1">
                           <h4 className="text-lg sm:text-xl font-bold text-white mb-1">
-                            {exp.title}
+                            {t(exp.titleKey)}
                           </h4>
                           <p className="text-primary-400 text-sm sm:text-base font-semibold">
                             {exp.company}
@@ -187,11 +189,11 @@ export default function Experience() {
                       </div>
                       <div className="flex items-center text-gray-400 text-xs sm:text-sm">
                         <FaCalendarAlt className="mr-2 text-primary-400" />
-                        <span>{exp.period}</span>
+                        <span>{t(exp.periodKey)}</span>
                       </div>
                     </div>
                     <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                      {exp.description}
+                      {t(exp.descKey)}
                     </p>
                   </div>
                 </div>

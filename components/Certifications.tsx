@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { useLanguage } from '@/context/LanguageContext'
 
 interface Certification {
   title: string
@@ -10,6 +11,18 @@ interface Certification {
 }
 
 const certifications: Certification[] = [
+  {
+    title: 'Professional Scrum Master I (PSM I)',
+    issuer: 'Scrum.org',
+    year: 2026,
+    image: '/certificate-psm1.png',
+  },
+  {
+    title: 'PMI Authorized PMP Exam Prep',
+    issuer: 'Project Management Institute (PMI)',
+    year: 2025,
+    image: '/certificate-pmi.png',
+  },
   {
     title: 'Odoo for programmers',
     issuer: 'Udemy',
@@ -25,6 +38,8 @@ const certifications: Certification[] = [
 ]
 
 export default function Certifications() {
+  const { t } = useLanguage()
+
   return (
     <section
       id="certifications"
@@ -32,21 +47,21 @@ export default function Certifications() {
     >
       {/* Background decoration */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-primary-600/10 rounded-full blur-3xl"></div>
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-12 sm:mb-16">
           <div className="inline-flex items-center justify-center mb-3 sm:mb-4">
             <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary-600 rounded-full mr-2 sm:mr-3"></div>
             <span className="text-primary-400 text-xs sm:text-sm uppercase tracking-wider font-semibold">
-              Achievements
+              {t('cert.tag')}
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 sm:mb-4">
-            Certifications
+            {t('cert.title')}
           </h2>
           <div className="w-16 sm:w-24 h-0.5 sm:h-1 bg-primary-600 mx-auto mb-6 sm:mb-8"></div>
           <p className="text-sm sm:text-base lg:text-lg text-gray-300 max-w-3xl mx-auto px-4">
-            Professional certifications and courses that demonstrate my commitment to continuous learning and skill development.
+            {t('cert.description')}
           </p>
         </div>
 
@@ -86,5 +101,3 @@ export default function Certifications() {
     </section>
   )
 }
-
-

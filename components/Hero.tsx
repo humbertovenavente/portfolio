@@ -5,19 +5,24 @@ import Image from 'next/image'
 import { FaGithub, FaLinkedin, FaEnvelope, FaDownload, FaWhatsapp } from 'react-icons/fa'
 import Typewriter from './Typewriter'
 import OrbitalIcons from './OrbitalIcons'
+import { useLanguage } from '@/context/LanguageContext'
 
 export default function Hero() {
   const [mounted, setMounted] = useState(false)
+  const { t } = useLanguage()
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
   const roles = [
-    'Full Stack Developer',
-    'Mobile App Developer',
-    'Web Developer',
-    'Junior Project Manager',
+    t('hero.role.scrum'),
+    t('hero.role.fullstack'),
+    t('hero.role.mobile'),
+    t('hero.role.web'),
+    t('hero.role.devops'),
+    t('hero.role.qa'),
+    t('hero.role.pm'),
   ]
 
   const message = encodeURIComponent("Hello! I'm really happy to work with you. Let's create something amazing together and bring your ideas to life with innovative solutions.")
@@ -65,7 +70,7 @@ export default function Hero() {
             }`}
           >
             <p className="text-primary-400 text-xs sm:text-sm uppercase tracking-wider mb-2 sm:mb-4 font-semibold">
-              Hello, I'm
+              {t('hero.greeting')}
             </p>
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight">
               <span className="text-primary-400">Jose</span> Najar
@@ -97,7 +102,7 @@ export default function Hero() {
                 href="#projects"
                 className="bg-primary-600 hover:bg-primary-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-primary-600/50 hover:scale-105 active:scale-95 text-center"
               >
-                View Projects
+                {t('hero.viewProjects')}
               </a>
               <a
                 href="/cv.pdf"
@@ -105,7 +110,7 @@ export default function Hero() {
                 className="bg-gray-800 hover:bg-gray-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm sm:text-base transition-all duration-300 border-2 border-primary-600 hover:border-primary-500 flex items-center justify-center gap-2 active:scale-95"
               >
                 <FaDownload />
-                Download CV
+                {t('hero.downloadCV')}
               </a>
             </div>
           </div>
@@ -119,13 +124,13 @@ export default function Hero() {
             <div className="relative">
               {/* Decorative circle */}
               <div className="absolute -top-10 -right-10 w-96 h-96 bg-gradient-to-br from-primary-600/30 to-primary-400/20 rounded-full blur-3xl"></div>
-              
+
               {/* Photo container with orbital icons */}
               <div className="relative z-10">
                 <div className="relative w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] md:w-[700px] md:h-[700px] lg:w-[800px] lg:h-[800px] mx-auto flex items-center justify-center">
                   {/* Orbital Icons */}
                   <OrbitalIcons />
-                  
+
                   {/* Photo */}
                   <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 z-10">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary-600 to-primary-400 rounded-full blur-2xl opacity-50"></div>

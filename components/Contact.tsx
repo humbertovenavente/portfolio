@@ -1,8 +1,10 @@
 'use client'
 
 import { FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa'
+import { useLanguage } from '@/context/LanguageContext'
 
 export default function Contact() {
+  const { t } = useLanguage()
 
   return (
     <section
@@ -11,29 +13,28 @@ export default function Contact() {
     >
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-primary-600/10 rounded-full blur-3xl"></div>
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-12 sm:mb-16">
           <div className="inline-flex items-center justify-center mb-3 sm:mb-4">
             <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary-600 rounded-full mr-2 sm:mr-3"></div>
             <span className="text-primary-400 text-xs sm:text-sm uppercase tracking-wider font-semibold">
-              Get In Touch
+              {t('contact.tag')}
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 sm:mb-4">
-            Let's Work Together
+            {t('contact.title')}
           </h2>
           <div className="w-16 sm:w-24 h-0.5 sm:h-1 bg-primary-600 mx-auto mb-6 sm:mb-8"></div>
           <p className="text-sm sm:text-base lg:text-lg text-gray-300 max-w-3xl mx-auto px-4">
-            Have a project in mind? I'd love to hear about it. 
-            I'm always open to discussing new opportunities and collaborations.
+            {t('contact.description')}
           </p>
         </div>
 
         <div className="max-w-3xl mx-auto">
           <div>
             <h3 className="text-xl sm:text-2xl font-bold text-white mb-6 sm:mb-8">
-              Contact Information
+              {t('contact.info')}
             </h3>
             <div className="space-y-4 sm:space-y-6">
               <div className="flex items-start group">
@@ -42,7 +43,7 @@ export default function Contact() {
                 </div>
                 <div className="ml-3 sm:ml-4">
                   <h4 className="text-base sm:text-lg font-semibold text-white mb-1">
-                    Email
+                    {t('contact.email')}
                   </h4>
                   <a
                     href="https://outlook.live.com/mail/0/deeplink/compose?to=humbertovenavente7@gmail.com"
@@ -61,7 +62,7 @@ export default function Contact() {
                 </div>
                 <div className="ml-3 sm:ml-4">
                   <h4 className="text-base sm:text-lg font-semibold text-white mb-1">
-                    Phone
+                    {t('contact.phone')}
                   </h4>
                   <a
                     href="https://wa.me/50259697956"
@@ -80,7 +81,7 @@ export default function Contact() {
                 </div>
                 <div className="ml-3 sm:ml-4">
                   <h4 className="text-base sm:text-lg font-semibold text-white mb-1">
-                    Location
+                    {t('contact.location')}
                   </h4>
                   <p className="text-gray-400 text-sm sm:text-base">
                     Guatemala, Guatemala
@@ -91,8 +92,7 @@ export default function Contact() {
 
             <div className="mt-8 sm:mt-12 p-4 sm:p-6 bg-gray-800/50 backdrop-blur-sm rounded-lg border border-gray-700">
               <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                I'm available for freelance projects and job opportunities. 
-                If you have any questions or want to discuss a project, feel free to contact me.
+                {t('contact.available')}
               </p>
             </div>
           </div>

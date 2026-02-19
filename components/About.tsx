@@ -1,7 +1,9 @@
 'use client'
 
+import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
-import { FaCode, FaPalette, FaMobile, FaRocket, FaDatabase, FaGitAlt, FaBox, FaLayerGroup, FaTasks } from 'react-icons/fa'
+import { FaCode, FaPalette, FaMobile, FaRocket, FaDatabase, FaGitAlt, FaBox, FaLayerGroup, FaTasks, FaChevronLeft, FaChevronRight, FaExternalLinkAlt } from 'react-icons/fa'
+import { useLanguage } from '@/context/LanguageContext'
 import {
   SiPython,
   SiJavascript,
@@ -38,24 +40,41 @@ import {
 } from 'react-icons/si'
 
 interface Skill {
-  name: string
+  key: string
   percentage: number
   icon: any
 }
 
 const skills: Skill[] = [
-  { name: 'Frontend Development', percentage: 85, icon: FaCode },
-  { name: 'Backend Development', percentage: 75, icon: FaDatabase },
-  { name: 'UI/UX Design', percentage: 70, icon: FaPalette },
-  { name: 'Mobile Development', percentage: 60, icon: FaMobile },
-  { name: 'DevOps & Cloud', percentage: 80, icon: FaRocket },
-  { name: 'Odoo', percentage: 75, icon: FaBox },
-  { name: 'Git', percentage: 90, icon: FaGitAlt },
-  { name: 'Low Code Apps', percentage: 75, icon: FaLayerGroup },
-  { name: 'Project Management', percentage: 75, icon: FaTasks },
+  { key: 'skill.frontend', percentage: 85, icon: FaCode },
+  { key: 'skill.backend', percentage: 75, icon: FaDatabase },
+  { key: 'skill.uiux', percentage: 70, icon: FaPalette },
+  { key: 'skill.mobile', percentage: 60, icon: FaMobile },
+  { key: 'skill.devops', percentage: 80, icon: FaRocket },
+  { key: 'skill.odoo', percentage: 75, icon: FaBox },
+  { key: 'skill.git', percentage: 90, icon: FaGitAlt },
+  { key: 'skill.lowcode', percentage: 75, icon: FaLayerGroup },
+  { key: 'skill.pm', percentage: 75, icon: FaTasks },
+]
+
+const aboutImages = [
+  { src: '/universidad-del-istmo.png', alt: 'Universidad del Istmo', bg: 'bg-white' },
+  { src: '/scrum-gathering.png', alt: 'Regional Scrum Gathering Central America 2025', bg: 'bg-gray-900' },
+  { src: '/universidad-del-istmo-2.jpg', alt: 'Universidad del Istmo - Saber para Servir', bg: 'bg-white' },
 ]
 
 export default function About() {
+  const { t } = useLanguage()
+  const [currentImage, setCurrentImage] = useState(0)
+
+  const nextImage = useCallback(() => setCurrentImage((prev) => (prev + 1) % aboutImages.length), [])
+  const prevImage = () => setCurrentImage((prev) => (prev - 1 + aboutImages.length) % aboutImages.length)
+
+  useEffect(() => {
+    const interval = setInterval(nextImage, 4000)
+    return () => clearInterval(interval)
+  }, [nextImage])
+
   return (
     <section
       id="about"
@@ -70,7 +89,7 @@ export default function About() {
           <div className="inline-flex items-center justify-center mb-3 sm:mb-4">
             <div className="w-2 h-2 sm:w-3 sm:h-3 bg-primary-600 rounded-full mr-2 sm:mr-3"></div>
             <span className="text-primary-400 text-xs sm:text-sm uppercase tracking-wider font-semibold">
-              Who I Am
+              {t('about.tag')}
             </span>
           </div>
         
@@ -84,26 +103,44 @@ export default function About() {
               <div className="relative">
                 <div className="flex items-center mb-4">
                   <div className="w-1 h-8 bg-gradient-to-b from-primary-600 to-primary-400 rounded-full mr-4"></div>
-                  <h3 className="text-primary-400 text-sm uppercase tracking-wider font-semibold">About Me</h3>
+                  <h3 className="text-primary-400 text-sm uppercase tracking-wider font-semibold">{t('about.title')}</h3>
                 </div>
                 <p className="text-gray-200 text-base sm:text-lg leading-relaxed text-justify">
-                  Computer Science and Systems Engineering student with hands-on experience in full-stack development, cloud integration (AWS, Google Cloud, and Azure), database management, low-code tools, and building AI-driven solutions. I develop efficient, scalable, results-oriented web applications using modern technologies such as JavaScript, the MERN stack, Oracle APEX, Power Apps, and application development best practices. I adapt quickly to new environments, solve technical problems with an analytical mindset, and contribute to collaborative projects through clear communication, strong ownership, and a solid focus on artificial intelligence.
+                  {t('about.description')}
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Right Side - University Logo */}
+          {/* Right Side - Image Carousel */}
           <div className="flex items-center">
-            <div className="relative w-full h-full min-h-[400px] rounded-xl overflow-hidden border-2 border-gray-700/50 shadow-2xl hover:shadow-primary-600/20 transition-all duration-300 hover:border-primary-600/30 bg-white group">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative w-full h-full">
+            <div className="relative w-full h-full min-h-[400px] rounded-xl overflow-hidden border-2 border-gray-700/50 shadow-2xl hover:shadow-primary-600/20 transition-all duration-300 hover:border-primary-600/30 group">
+              <div className={`relative w-full h-full min-h-[400px] ${aboutImages[currentImage].bg}`}>
                 <Image
-                  src="/universidad-del-istmo.jpg"
-                  alt="Universidad del Istmo"
+                  src={aboutImages[currentImage].src}
+                  alt={aboutImages[currentImage].alt}
                   fill
                   className="object-contain p-4"
                 />
+              </div>
+              {/* Navigation Arrows */}
+              <button onClick={prevImage} className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center text-white transition-all z-10">
+                <FaChevronLeft />
+              </button>
+              <button onClick={nextImage} className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center text-white transition-all z-10">
+                <FaChevronRight />
+              </button>
+              {/* Dots */}
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                {aboutImages.map((_, idx) => (
+                  <button key={idx} onClick={() => setCurrentImage(idx)} className={`w-3 h-3 rounded-full transition-all ${idx === currentImage ? 'bg-primary-500 scale-110' : 'bg-white/50 hover:bg-white/80'}`} />
+                ))}
+              </div>
+              {/* Caption */}
+              <div className="absolute bottom-10 left-0 right-0 text-center">
+                <span className="bg-black/60 text-white text-xs sm:text-sm px-3 py-1 rounded-full">
+                  {aboutImages[currentImage].alt}
+                </span>
               </div>
             </div>
           </div>
@@ -112,7 +149,7 @@ export default function About() {
         {/* Skills Section */}
         <div>
           <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-8 sm:mb-12 text-center">
-            My Work <span className="text-orange-500">Skills</span>
+            {t('about.skills')}
           </h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
             {skills.map((skill, index) => {
@@ -130,7 +167,7 @@ export default function About() {
                       <Icon className="text-orange-500 text-3xl sm:text-4xl group-hover:scale-110 transition-transform duration-300" />
                     </div>
                     <h4 className="text-white font-semibold text-sm sm:text-base mb-5 group-hover:text-orange-400 transition-colors duration-300">
-                      {skill.name}
+                      {t(skill.key)}
                     </h4>
                     <div className="w-full bg-gray-700/60 rounded-full h-9 sm:h-10 overflow-hidden relative shadow-inner">
                       <div
@@ -152,13 +189,13 @@ export default function About() {
         {/* Technologies */}
         <div className="mt-16">
           <h3 className="text-2xl sm:text-3xl font-bold text-white mb-8 sm:mb-12 text-center">
-            Technologies I Work With
+            {t('about.technologies')}
           </h3>
           
           <div className="space-y-12">
             {/* Programming Languages */}
             <div>
-              <h4 className="text-xl font-semibold text-orange-500 mb-6">Programming Languages</h4>
+              <h4 className="text-xl font-semibold text-orange-500 mb-6">{t('tech.languages')}</h4>
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 sm:gap-6">
                 {[
                   { name: 'Python', icon: SiPython, color: '#3776AB' },
@@ -186,7 +223,7 @@ export default function About() {
 
             {/* Frameworks and libraries */}
             <div>
-              <h4 className="text-xl font-semibold text-orange-500 mb-6">Frameworks and libraries</h4>
+              <h4 className="text-xl font-semibold text-orange-500 mb-6">{t('tech.frameworks')}</h4>
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 sm:gap-6">
                 {[
                   { name: 'Vue', icon: SiVuedotjs, color: '#4FC08D' },
@@ -216,7 +253,7 @@ export default function About() {
 
             {/* Mobile Applications */}
             <div>
-              <h4 className="text-xl font-semibold text-orange-500 mb-6">Mobile Applications</h4>
+              <h4 className="text-xl font-semibold text-orange-500 mb-6">{t('tech.mobile')}</h4>
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 sm:gap-6">
                 {[
                   { name: 'Flutter', icon: SiFlutter, color: '#02569B' },
@@ -240,7 +277,7 @@ export default function About() {
 
             {/* Databases */}
             <div>
-              <h4 className="text-xl font-semibold text-orange-500 mb-6">Databases</h4>
+              <h4 className="text-xl font-semibold text-orange-500 mb-6">{t('tech.databases')}</h4>
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 sm:gap-6">
                 {[
                   { name: 'MySQL', icon: SiMysql, color: '#4479A1' },
@@ -267,7 +304,7 @@ export default function About() {
 
             {/* Low-Code */}
             <div>
-              <h4 className="text-xl font-semibold text-orange-500 mb-6">Low-Code</h4>
+              <h4 className="text-xl font-semibold text-orange-500 mb-6">{t('tech.lowcode')}</h4>
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 sm:gap-6">
                 {[
                   { name: 'Power Apps', icon: SiMicrosoft, color: '#0078D4' },
@@ -292,7 +329,7 @@ export default function About() {
 
             {/* CI/CD */}
             <div>
-              <h4 className="text-xl font-semibold text-orange-500 mb-6">CI/CD</h4>
+              <h4 className="text-xl font-semibold text-orange-500 mb-6">{t('tech.cicd')}</h4>
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 sm:gap-6">
                 {[
                   { name: 'Prometheus', icon: SiPrometheus, color: '#E6522C' },
@@ -320,7 +357,7 @@ export default function About() {
 
             {/* Tools */}
             <div>
-              <h4 className="text-xl font-semibold text-orange-500 mb-6">Tools</h4>
+              <h4 className="text-xl font-semibold text-orange-500 mb-6">{t('tech.tools')}</h4>
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 sm:gap-6">
                 {[
                   { name: 'Git', icon: SiGit, color: '#F05032' },
@@ -349,30 +386,75 @@ export default function About() {
         {/* Awards Section */}
         <div className="mt-16">
           <h3 className="text-2xl sm:text-3xl font-bold text-white mb-8 sm:mb-12 text-center">
-            Awards & Recognition
+            {t('about.awards')}
           </h3>
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 sm:p-8 border border-gray-700/50 hover:border-orange-500/50 transition-all shadow-lg">
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-                {/* ILAN Logo */}
-                <div className="flex-shrink-0 w-32 h-32 sm:w-40 sm:h-40 relative rounded-lg overflow-hidden border border-gray-700/50 bg-white">
-                  <Image
-                    src="/ilan.jpg"
-                    alt="ILAN Israel Innovation Network"
-                    fill
-                    className="object-contain p-2"
-                  />
+              <div className="flex flex-col items-center gap-6">
+                {/* Award Description */}
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 w-full">
+                  {/* ILAN Logo */}
+                  <div className="flex-shrink-0 w-32 h-32 sm:w-40 sm:h-40 relative rounded-lg overflow-hidden border border-gray-700/50 bg-white">
+                    <Image
+                      src="/ilan.jpg"
+                      alt="ILAN Israel Innovation Network"
+                      fill
+                      className="object-contain p-2"
+                    />
+                  </div>
+                  <div className="flex-1 text-center sm:text-left">
+                    <h4 className="text-xl sm:text-2xl font-bold text-white mb-2">
+                      {t('about.awardTitle')}
+                    </h4>
+                    <p className="text-orange-400 font-semibold text-sm sm:text-base mb-2">
+                      {t('about.awardIssuer')}
+                    </p>
+                    <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                      {t('about.awardDesc')}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex-1 text-center sm:text-left">
-                  <h4 className="text-xl sm:text-2xl font-bold text-white mb-2">
-                    Winner – ILAN 2025 Award (Innovative Project for Israel) · 2025
-                  </h4>
-                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                    Distinction granted by the Israel Innovation Network to the project "Prototype with Neural Networks and Clustering to Predict Fashion Trends in Guatemala."
-                  </p>
+
+                {/* Certificate Image */}
+                <div className="relative w-full h-80 sm:h-[500px] rounded-lg overflow-hidden border border-gray-700/50 bg-gray-900">
+                  <Image
+                    src="/certificate-ilan.png"
+                    alt="ILAN Innovation Awards Certificate"
+                    fill
+                    className="object-contain p-4"
+                  />
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        {/* Press & Notes Section */}
+        <div className="mt-16">
+          <h3 className="text-2xl sm:text-3xl font-bold text-white mb-8 sm:mb-12 text-center">
+            {t('about.press')}
+          </h3>
+          <div className="max-w-4xl mx-auto">
+            <a
+              href="https://www.linkedin.com/pulse/celebramos-la-innovaci%C3%B3n-universitaria-en-guatemala-un-ecosistema-pm5ec/?trackingId=TSjMji3%2F0DcwsEYcOigdYA%3D%3D"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 sm:p-8 border border-gray-700/50 hover:border-orange-500/50 transition-all shadow-lg hover:shadow-2xl hover:shadow-orange-500/20 group"
+            >
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center">
+                  <FaExternalLinkAlt className="text-blue-400 text-lg" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">
+                    {t('about.pressTitle')}
+                  </h4>
+                  <p className="text-gray-400 text-sm mb-2">LinkedIn</p>
+                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                    {t('about.pressDesc')}
+                  </p>
+                </div>
+              </div>
+            </a>
           </div>
         </div>
       </div>
