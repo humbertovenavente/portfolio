@@ -427,6 +427,35 @@ export default function About() {
               </div>
             </div>
           </div>
+
+          {/* ATOM Award */}
+          <div className="max-w-5xl mx-auto mt-8">
+            <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 sm:p-8 border border-gray-700/50 hover:border-orange-500/50 transition-all shadow-lg">
+              <div className="flex flex-col items-center gap-6">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 w-full">
+                  <div className="flex-shrink-0 w-32 h-32 sm:w-40 sm:h-40 relative rounded-lg overflow-hidden border border-gray-700/50 bg-white">
+                    <Image
+                      src="/atom-devday.png"
+                      alt="ATOM Dev Day 2026"
+                      fill
+                      className="object-contain p-2"
+                    />
+                  </div>
+                  <div className="flex-1 text-center sm:text-left">
+                    <h4 className="text-xl sm:text-2xl font-bold text-white mb-2">
+                      {t('about.atomAwardTitle')}
+                    </h4>
+                    <p className="text-orange-400 font-semibold text-sm sm:text-base mb-2">
+                      {t('about.atomAwardIssuer')}
+                    </p>
+                    <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                      {t('about.atomAwardDesc')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         {/* Press & Notes Section */}
         <div className="mt-16">

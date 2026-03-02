@@ -20,6 +20,13 @@ interface Project {
 
 const projects: Project[] = [
   {
+    titleKey: 'proj.atom.title',
+    descKey: 'proj.atom.desc',
+    technologies: ['Angular 21', 'Analog.js', 'Gemini 2.5 Flash', 'MongoDB Atlas Vector Search', '@foblex/flow', 'Tailwind CSS', 'Vercel'],
+    liveUrl: 'https://atom-one-phi.vercel.app/',
+    image: '/atom-builder-1.png',
+  },
+  {
     titleKey: 'proj.makeup.title',
     descKey: 'proj.makeup.desc',
     technologies: ['TypeScript', 'React', 'Google Cloud Platform', 'Next.js', 'PostgreSQL'],

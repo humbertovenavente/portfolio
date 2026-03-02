@@ -59,6 +59,15 @@ const translations: Record<string, Record<Lang, string>> = {
     en: 'Awarded 2nd place for the project "Prototype with Neural Networks and Clustering to Predict Local Fashion Trends" — recognized for work, dedication, and commitment to the benefit of society through innovation.',
     es: 'Segundo lugar por el proyecto "Prototipo con Redes Neuronales y Clustering para Predecir Tendencias de Moda Locales" — reconocido por trabajo, dedicacion y compromiso en beneficio de la sociedad a traves de la innovacion.',
   },
+  'about.atomAwardTitle': { en: '1st Place — Dev Day Atom 2026', es: '1er Lugar — Dev Day Atom 2026' },
+  'about.atomAwardIssuer': {
+    en: 'ATOM · Meta Business Partners · Google Cloud',
+    es: 'ATOM · Meta Business Partners · Google Cloud',
+  },
+  'about.atomAwardDesc': {
+    en: 'Awarded 1st place at the AI Agents Hackathon by ATOM for building a fullstack platform with a visual flow editor for multi-agent AI chatbots applied to a car dealership, featuring real-time SSE streaming and Telegram integration.',
+    es: 'Primer lugar en el Hackathon de Agentes de IA por ATOM por construir una plataforma fullstack con editor visual de flujos para chatbots multi-agente de IA aplicados a una concesionaria de autos, con streaming SSE en tiempo real e integracion con Telegram.',
+  },
 
   // Skills
   'skill.frontend': { en: 'Frontend Development', es: 'Desarrollo Frontend' },
@@ -177,6 +186,11 @@ const translations: Record<string, Record<Lang, string>> = {
     es: 'Integracion de Jenkins y SonarQube para implementar un pipeline de Integracion Continua (CI) que compila el codigo, ejecuta pruebas automatizadas y realiza analisis de calidad. El pipeline se activa con cada cambio en el repositorio, genera reportes de cobertura y valida quality gates antes de permitir el despliegue.',
   },
   'proj.odoo.title': { en: 'Odoo Automations', es: 'Automatizaciones Odoo' },
+  'proj.atom.title': { en: 'ATOM — AI Agent Builder for Car Dealerships', es: 'ATOM — Constructor de Agentes IA para Concesionarias' },
+  'proj.atom.desc': {
+    en: 'Fullstack platform with a visual flow editor for building and testing multi-agent AI chatbots, applied to a car dealership. Features real-time SSE streaming chat and Telegram integration. 1st Place, Dev Day Atom 2026.',
+    es: 'Plataforma fullstack con un editor visual de flujos para construir y probar chatbots multi-agente de IA, aplicado a una concesionaria de autos. Incluye chat con streaming SSE en tiempo real e integracion con Telegram. 1er Lugar, Dev Day Atom 2026.',
+  },
   'proj.odoo.desc': {
     en: 'In this video I show you how I automated content generation for teams using Odoo, Slack, Trello and Power BI in a single integrated flow.',
     es: 'En este video muestro como automatice la generacion de contenido para equipos usando Odoo, Slack, Trello y Power BI en un solo flujo integrado.',
