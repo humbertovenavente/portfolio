@@ -462,7 +462,28 @@ export default function About() {
           <h3 className="text-2xl sm:text-3xl font-bold text-white mb-8 sm:mb-12 text-center">
             {t('about.press')}
           </h3>
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-4xl mx-auto space-y-6">
+            <a
+              href="https://www.linkedin.com/posts/universidad-del-istmo_tecnolog%C3%ADa-inteligenciaartificial-innovaci%C3%B3n-activity-7435392549550313472-5r3U?utm_source=social_share_send&utm_medium=member_desktop_web"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-xl p-6 sm:p-8 border border-gray-700/50 hover:border-orange-500/50 transition-all shadow-lg hover:shadow-2xl hover:shadow-orange-500/20 group"
+            >
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center">
+                  <FaExternalLinkAlt className="text-blue-400 text-lg" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors">
+                    {t('about.pressTitle2')}
+                  </h4>
+                  <p className="text-gray-400 text-sm mb-2">LinkedIn · Universidad del Istmo</p>
+                  <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+                    {t('about.pressDesc2')}
+                  </p>
+                </div>
+              </div>
+            </a>
             <a
               href="https://www.linkedin.com/pulse/celebramos-la-innovaci%C3%B3n-universitaria-en-guatemala-un-ecosistema-pm5ec/?trackingId=TSjMji3%2F0DcwsEYcOigdYA%3D%3D"
               target="_blank"

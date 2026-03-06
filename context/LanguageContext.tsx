@@ -50,6 +50,14 @@ const translations: Record<string, Record<Lang, string>> = {
     en: 'Featured article about the ILAN Innovation Awards and the university innovation ecosystem in Guatemala.',
     es: 'Articulo destacado sobre los Premios ILAN de Innovacion y el ecosistema de innovacion universitaria en Guatemala.',
   },
+  'about.pressTitle2': {
+    en: '1st Place at Atom Dev Day 2026 Hackathon',
+    es: '1er Lugar en Hackathon Atom Dev Day 2026',
+  },
+  'about.pressDesc2': {
+    en: 'Universidad del Istmo highlights Humberto Venavente winning 1st place at Atom DevDay 2026, a hackathon backed by Meta and Google Cloud, building a full-stack AI multi-agent platform.',
+    es: 'La Universidad del Istmo destaca a Humberto Venavente obteniendo el 1er lugar en Atom DevDay 2026, un hackathon respaldado por Meta y Google Cloud, construyendo una plataforma full-stack de agentes multi-agente con IA.',
+  },
   'about.awardTitle': { en: 'ILAN Innovation Awards 2025', es: 'Premios ILAN de Innovacion 2025' },
   'about.awardIssuer': {
     en: 'Israel Innovation Network · Universidad del Istmo',
