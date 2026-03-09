@@ -54,7 +54,7 @@ const projects: Project[] = [
     titleKey: 'proj.fashion.title',
     descKey: 'proj.fashion.desc',
     technologies: ['Artificial Intelligence', 'Python', 'TensorFlow', 'scikit-learn', 'OpenCV', 'Flask', 'Docker', 'Google Cloud Storage'],
-    liveUrl: 'http://40.124.136.109:5000/',
+    liveUrl: 'https://siankan.com/',
     documentUrl: 'https://drive.google.com/file/d/16ZdpfNuGyr1xAyzQmNj5YQ2dCB_5xyOZ/view?usp=sharing',
     presentationUrl: 'https://gamma.app/docs/FashionSense-AI-itdvsdth0yme9qq',
     images: [

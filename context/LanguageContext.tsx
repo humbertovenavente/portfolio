@@ -128,11 +128,11 @@ const translations: Record<string, Record<Lang, string>> = {
     en: 'Freelance web developer with experience in HTML, CSS, JavaScript, and PostgreSQL databases, developing a project with AWS cloud integration for a company operating in Guatemala and providing system maintenance.',
     es: 'Desarrollador web freelance con experiencia en HTML, CSS, JavaScript y bases de datos PostgreSQL, desarrollando un proyecto con integracion en la nube AWS para una empresa en Guatemala y brindando mantenimiento de sistemas.',
   },
-  'exp.besteco.title': { en: 'Project Manager & Full Stack Developer', es: 'Project Manager y Desarrollador Full Stack' },
+  'exp.besteco.title': { en: 'Scrum Master & Full Stack Developer', es: 'Scrum Master y Desarrollador Full Stack' },
   'exp.besteco.period': { en: 'Feb 2025 - Present', es: 'Feb 2025 - Presente' },
   'exp.besteco.desc': {
-    en: 'I led software development project for U.S.-based company as a Project Manager, overseeing a team and solutions using the MERN stack and SCRUM methodology and full stack developer.',
-    es: 'Lidere un proyecto de desarrollo de software para una empresa de EE.UU. como Project Manager, supervisando un equipo y soluciones usando MERN stack y metodologia SCRUM como desarrollador full stack.',
+    en: 'I lead software development for a U.S.-based company using the MERN stack within an Agile/SCRUM framework. Coordinate a cross-functional team, managing product backlog, sprint priorities, and delivery timelines.',
+    es: 'Lidero el desarrollo de software para una empresa de EE.UU. usando MERN stack dentro de un marco Agile/SCRUM. Coordino un equipo multifuncional, gestionando el backlog, prioridades de sprint y cronogramas de entrega.',
   },
   'exp.bantrab.title': { en: 'Development Intern', es: 'Pasante de Desarrollo' },
   'exp.bantrab.period': { en: 'May 2025 - Aug 2025', es: 'May 2025 - Ago 2025' },
@@ -183,7 +183,7 @@ const translations: Record<string, Record<Lang, string>> = {
     en: 'OnTaskTech is a modern productivity and company-management platform built with the MERN stack. The system allows users to manage companies, projects, employees, subscriptions, payroll settings, and client interactions through a clean, responsive interface. It includes features such as dynamic dashboards, business-line grouping, project creation, user roles, secure authentication, insurer integrations, and real-time data updates via React Context. The goal is to provide an efficient, scalable tool that centralizes business operations for teams of any size.',
     es: 'OnTaskTech es una plataforma moderna de productividad y gestion empresarial construida con MERN stack. El sistema permite gestionar empresas, proyectos, empleados, suscripciones, nomina e interacciones con clientes a traves de una interfaz limpia y responsiva. Incluye dashboards dinamicos, agrupacion por lineas de negocio, creacion de proyectos, roles de usuario, autenticacion segura e integraciones en tiempo real.',
   },
-  'proj.fashion.title': { en: 'FashionSense AI', es: 'FashionSense AI' },
+  'proj.fashion.title': { en: 'SianKan AI', es: 'SianKan AI' },
   'proj.fashion.desc': {
     en: 'My prototype (Winner of ILAN 2025) revolutionizes Guatemalan fashion trend analysis through advanced artificial intelligence. Our system combines specialized deep learning models with clustering algorithms to identify unique patterns in local fashion. We use a MobileNetV2 model trained specifically for Guatemalan fashion, processing more than 16,000 images organized into 150 trend clusters to deliver accurate and reliable analysis.',
     es: 'Mi prototipo (Ganador de ILAN 2025) revoluciona el analisis de tendencias de moda guatemalteca a traves de inteligencia artificial avanzada. Nuestro sistema combina modelos de deep learning con algoritmos de clustering para identificar patrones unicos en la moda local. Usamos un modelo MobileNetV2 entrenado especificamente para moda guatemalteca, procesando mas de 16,000 imagenes organizadas en 150 clusters.',
