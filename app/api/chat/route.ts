@@ -1,4 +1,4 @@
-import Anthropic from '@anthropic-ai/sdk'
+import { GoogleGenAI } from '@google/genai'
 import { NextRequest, NextResponse } from 'next/server'
 
 const SYSTEM_PROMPT = `You are Jose Humberto Najar's AI assistant embedded in his portfolio website. You answer questions about Jose in a friendly, professional, and concise way. Always respond in the same language the user writes in (Spanish or English).
@@ -77,28 +77,32 @@ export async function POST(req: NextRequest) {
   try {
     const { messages, lang } = await req.json() as { messages: ChatMessage[]; lang: string }
 
-    if (!process.env.ANTHROPIC_API_KEY) {
+    if (!process.env.GEMINI_API_KEY) {
       return NextResponse.json(
         { error: 'API key not configured' },
         { status: 500 }
       )
     }
 
-    const client = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY,
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
+
+    const systemInstruction = SYSTEM_PROMPT + `\n\nThe user's interface language is ${lang === 'es' ? 'Spanish' : 'English'}. If the user hasn't specified a language, respond in ${lang === 'es' ? 'Spanish' : 'English'}.`
+
+    const contents = messages.map((m: ChatMessage) => ({
+      role: m.role === 'assistant' ? 'model' as const : 'user' as const,
+      parts: [{ text: m.content }],
+    }))
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.0-flash',
+      contents,
+      config: {
+        systemInstruction,
+        maxOutputTokens: 300,
+      },
     })
 
-    const response = await client.messages.create({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 300,
-      system: SYSTEM_PROMPT + `\n\nThe user's interface language is ${lang === 'es' ? 'Spanish' : 'English'}. If the user hasn't specified a language, respond in ${lang === 'es' ? 'Spanish' : 'English'}.`,
-      messages: messages.map((m: ChatMessage) => ({
-        role: m.role,
-        content: m.content,
-      })),
-    })
-
-    const text = response.content[0].type === 'text' ? response.content[0].text : ''
+    const text = response.text || ''
 
     return NextResponse.json({ message: text })
   } catch (error) {
