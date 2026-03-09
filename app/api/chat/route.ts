@@ -105,10 +105,11 @@ export async function POST(req: NextRequest) {
     const text = response.text || ''
 
     return NextResponse.json({ message: text })
-  } catch (error) {
-    console.error('Chat API error:', error)
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    console.error('Chat API error:', message)
     return NextResponse.json(
-      { error: 'Failed to get response' },
+      { error: message },
       { status: 500 }
     )
   }

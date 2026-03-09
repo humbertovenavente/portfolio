@@ -77,18 +77,18 @@ export default function ChatBot() {
         body: JSON.stringify({ messages: newMessages, lang }),
       })
 
-      if (!res.ok) throw new Error('API error')
-
       const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'API error')
       setMessages([...newMessages, { role: 'assistant', content: data.message }])
-    } catch {
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Unknown error'
       setMessages([
         ...newMessages,
         {
           role: 'assistant',
           content: lang === 'es'
-            ? 'Lo siento, hubo un error. Por favor intenta de nuevo.'
-            : 'Sorry, there was an error. Please try again.',
+            ? `Lo siento, hubo un error: ${errorMsg}`
+            : `Sorry, there was an error: ${errorMsg}`,
         },
       ])
     } finally {
