@@ -10,28 +10,29 @@ interface Message {
 
 const QUICK_QUESTIONS = {
   en: [
-    'What are your main skills?',
-    'Tell me about your experience',
-    'What projects have you built?',
-    'Are you available for hire?',
-    'What certifications do you have?',
+    'What kind of certifications does Jose have?',
+    'What is Jose\'s professional experience?',
+    'What projects has Jose built?',
+    'Is Jose available for new opportunities?',
+    'What technologies does Jose work with?',
   ],
   es: [
-    '¿Cuales son tus habilidades principales?',
-    'Cuentame sobre tu experiencia',
-    '¿Que proyectos has hecho?',
-    '¿Estas disponible para trabajar?',
-    '¿Que certificaciones tienes?',
+    'Que certificaciones tiene Jose?',
+    'Cual es la experiencia profesional de Jose?',
+    'Que proyectos ha construido Jose?',
+    'Esta Jose disponible para nuevas oportunidades?',
+    'Con que tecnologias trabaja Jose?',
   ],
 }
 
 export default function ChatBot() {
-  const { lang, t } = useLanguage()
+  const { lang } = useLanguage()
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [showQuick, setShowQuick] = useState(true)
+  const [hasAutoOpened, setHasAutoOpened] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -48,6 +49,16 @@ export default function ChatBot() {
       inputRef.current.focus()
     }
   }, [isOpen])
+
+  // Auto-open chat after 2 seconds on first visit
+  useEffect(() => {
+    if (hasAutoOpened) return
+    const timer = setTimeout(() => {
+      setIsOpen(true)
+      setHasAutoOpened(true)
+    }, 2000)
+    return () => clearTimeout(timer)
+  }, [hasAutoOpened])
 
   const sendMessage = async (content: string) => {
     if (!content.trim()) return
@@ -130,8 +141,10 @@ export default function ChatBot() {
         <div className="bg-gray-900 border border-gray-700 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden flex flex-col max-h-[70vh]">
           {/* Header */}
           <div className="bg-gradient-to-r from-primary-700 to-primary-600 px-4 py-3 flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-lg">
-              🤖
+            <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
+              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
             </div>
             <div className="flex-1">
               <p className="text-white font-semibold text-sm">Jose&apos;s AI Assistant</p>
@@ -150,9 +163,8 @@ export default function ChatBot() {
             {/* Welcome message */}
             {messages.length === 0 && (
               <div className="text-center py-4">
-                <div className="text-4xl mb-3">👋</div>
                 <p className="text-gray-300 text-sm mb-1 font-medium">
-                  {lang === 'es' ? '¡Hola! Soy el asistente IA de Jose.' : "Hi! I'm Jose's AI assistant."}
+                  {lang === 'es' ? 'Hola! Soy el asistente IA de Jose.' : "Hi! I'm Jose's AI assistant."}
                 </p>
                 <p className="text-gray-400 text-xs">
                   {lang === 'es'

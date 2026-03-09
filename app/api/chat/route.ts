@@ -1,10 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { NextRequest, NextResponse } from 'next/server'
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-})
-
 const SYSTEM_PROMPT = `You are Jose Humberto Najar's AI assistant embedded in his portfolio website. You answer questions about Jose in a friendly, professional, and concise way. Always respond in the same language the user writes in (Spanish or English).
 
 Here is Jose's complete profile:
@@ -87,6 +83,10 @@ export async function POST(req: NextRequest) {
         { status: 500 }
       )
     }
+
+    const client = new Anthropic({
+      apiKey: process.env.ANTHROPIC_API_KEY,
+    })
 
     const response = await client.messages.create({
       model: 'claude-haiku-4-5-20251001',
