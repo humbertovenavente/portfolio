@@ -1,7 +1,28 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
+
+function renderMarkdown(text: string) {
+  const parts: (string | JSX.Element)[] = []
+  const regex = /\*\*(.+?)\*\*/g
+  let lastIndex = 0
+  let match
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index))
+    }
+    parts.push(<strong key={match.index} className="font-semibold text-white">{match[1]}</strong>)
+    lastIndex = regex.lastIndex
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex))
+  }
+
+  return parts
+}
 
 interface Message {
   role: 'user' | 'assistant'
@@ -80,8 +101,9 @@ export default function ChatBot() {
 
       const decoder = new TextDecoder()
       let accumulated = ''
+      let streamDone = false
 
-      while (true) {
+      while (!streamDone) {
         const { done, value } = await reader.read()
         if (done) break
 
@@ -89,21 +111,24 @@ export default function ChatBot() {
         const lines = chunk.split('\n')
 
         for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            const data = line.slice(6)
-            if (data === '[DONE]') break
+          if (!line.startsWith('data: ')) continue
+          const data = line.slice(6)
 
-            try {
-              const parsed = JSON.parse(data)
-              if (parsed.error) throw new Error(parsed.error)
-              if (parsed.text) {
-                accumulated += parsed.text
-                setMessages([...newMessages, { role: 'assistant', content: accumulated }])
-              }
-            } catch (e) {
-              if (e instanceof SyntaxError) continue
-              throw e
+          if (data === '[DONE]') {
+            streamDone = true
+            break
+          }
+
+          try {
+            const parsed = JSON.parse(data)
+            if (parsed.error) throw new Error(parsed.error)
+            if (parsed.text) {
+              accumulated += parsed.text
+              setMessages([...newMessages, { role: 'assistant', content: accumulated }])
             }
+          } catch (e) {
+            if (e instanceof SyntaxError) continue
+            throw e
           }
         }
       }
@@ -215,7 +240,7 @@ export default function ChatBot() {
                       : 'bg-gray-800 text-gray-200 border border-gray-700 rounded-bl-sm'
                   }`}
                 >
-                  {msg.content}
+                  {msg.role === 'assistant' ? renderMarkdown(msg.content) : msg.content}
                   {msg.role === 'assistant' && isStreaming && i === messages.length - 1 && (
                     <span className="inline-block w-1.5 h-4 bg-primary-400 ml-0.5 animate-pulse align-middle" />
                   )}
