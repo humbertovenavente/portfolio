@@ -1,5 +1,5 @@
 import { GoogleGenAI } from '@google/genai'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 
 const SYSTEM_PROMPT = `You are Jose Humberto Najar's AI assistant embedded in his portfolio website. You answer questions about Jose in a friendly, professional, and concise way. Always respond in the same language the user writes in (Spanish or English).
 
@@ -78,10 +78,10 @@ export async function POST(req: NextRequest) {
     const { messages, lang } = await req.json() as { messages: ChatMessage[]; lang: string }
 
     if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'API key not configured' },
-        { status: 500 }
-      )
+      return new Response(JSON.stringify({ error: 'API key not configured' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      })
     }
 
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
       parts: [{ text: m.content }],
     }))
 
-    const response = await ai.models.generateContent({
+    const stream = await ai.models.generateContentStream({
       model: 'gemini-2.5-flash',
       contents,
       config: {
@@ -102,15 +102,39 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    const text = response.text || ''
+    const encoder = new TextEncoder()
+    const readable = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const chunk of stream) {
+            const text = chunk.text || ''
+            if (text) {
+              controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text })}\n\n`))
+            }
+          }
+          controller.enqueue(encoder.encode('data: [DONE]\n\n'))
+          controller.close()
+        } catch (err) {
+          const msg = err instanceof Error ? err.message : 'Stream error'
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ error: msg })}\n\n`))
+          controller.close()
+        }
+      },
+    })
 
-    return NextResponse.json({ message: text })
+    return new Response(readable, {
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+      },
+    })
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     console.error('Chat API error:', message)
-    return NextResponse.json(
-      { error: message },
-      { status: 500 }
-    )
+    return new Response(JSON.stringify({ error: message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    })
   }
 }

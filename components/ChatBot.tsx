@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
 
 interface Message {
@@ -27,22 +27,21 @@ const QUICK_QUESTIONS = {
 
 export default function ChatBot() {
   const { lang } = useLanguage()
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true)
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
+  const [isStreaming, setIsStreaming] = useState(false)
   const [showQuick, setShowQuick] = useState(true)
-  const [hasAutoOpened, setHasAutoOpened] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
+  }, [])
 
   useEffect(() => {
     scrollToBottom()
-  }, [messages])
+  }, [messages, scrollToBottom])
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
@@ -50,25 +49,19 @@ export default function ChatBot() {
     }
   }, [isOpen])
 
-  // Auto-open chat after 2 seconds on first visit
-  useEffect(() => {
-    if (hasAutoOpened) return
-    const timer = setTimeout(() => {
-      setIsOpen(true)
-      setHasAutoOpened(true)
-    }, 2000)
-    return () => clearTimeout(timer)
-  }, [hasAutoOpened])
-
   const sendMessage = async (content: string) => {
-    if (!content.trim()) return
+    if (!content.trim() || isStreaming) return
 
     const userMessage: Message = { role: 'user', content: content.trim() }
     const newMessages = [...messages, userMessage]
     setMessages(newMessages)
     setInput('')
     setShowQuick(false)
-    setIsLoading(true)
+    setIsStreaming(true)
+
+    // Add empty assistant message that will be filled by streaming
+    const streamingMessages = [...newMessages, { role: 'assistant' as const, content: '' }]
+    setMessages(streamingMessages)
 
     try {
       const res = await fetch('/api/chat', {
@@ -77,9 +70,43 @@ export default function ChatBot() {
         body: JSON.stringify({ messages: newMessages, lang }),
       })
 
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'API error')
-      setMessages([...newMessages, { role: 'assistant', content: data.message }])
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || 'API error')
+      }
+
+      const reader = res.body?.getReader()
+      if (!reader) throw new Error('No stream')
+
+      const decoder = new TextDecoder()
+      let accumulated = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        const chunk = decoder.decode(value, { stream: true })
+        const lines = chunk.split('\n')
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(6)
+            if (data === '[DONE]') break
+
+            try {
+              const parsed = JSON.parse(data)
+              if (parsed.error) throw new Error(parsed.error)
+              if (parsed.text) {
+                accumulated += parsed.text
+                setMessages([...newMessages, { role: 'assistant', content: accumulated }])
+              }
+            } catch (e) {
+              if (e instanceof SyntaxError) continue
+              throw e
+            }
+          }
+        }
+      }
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Unknown error'
       setMessages([
@@ -92,7 +119,7 @@ export default function ChatBot() {
         },
       ])
     } finally {
-      setIsLoading(false)
+      setIsStreaming(false)
     }
   }
 
@@ -153,8 +180,10 @@ export default function ChatBot() {
               </p>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
-              <span className="text-primary-200 text-xs">Online</span>
+              <div className={`w-2 h-2 rounded-full ${isStreaming ? 'bg-yellow-400' : 'bg-green-400'} animate-pulse`}></div>
+              <span className="text-primary-200 text-xs">
+                {isStreaming ? (lang === 'es' ? 'Escribiendo...' : 'Typing...') : 'Online'}
+              </span>
             </div>
           </div>
 
@@ -187,21 +216,12 @@ export default function ChatBot() {
                   }`}
                 >
                   {msg.content}
+                  {msg.role === 'assistant' && isStreaming && i === messages.length - 1 && (
+                    <span className="inline-block w-1.5 h-4 bg-primary-400 ml-0.5 animate-pulse align-middle" />
+                  )}
                 </div>
               </div>
             ))}
-
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-gray-800 border border-gray-700 px-4 py-3 rounded-2xl rounded-bl-sm">
-                  <div className="flex gap-1.5">
-                    <div className="w-2 h-2 bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                    <div className="w-2 h-2 bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                    <div className="w-2 h-2 bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                  </div>
-                </div>
-              </div>
-            )}
 
             <div ref={messagesEndRef} />
           </div>
@@ -232,12 +252,12 @@ export default function ChatBot() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={lang === 'es' ? 'Escribe tu pregunta...' : 'Type your question...'}
-                disabled={isLoading}
+                disabled={isStreaming}
                 className="flex-1 bg-gray-800 text-white text-sm px-4 py-2.5 rounded-full border border-gray-700 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500/50 placeholder-gray-500 disabled:opacity-50"
               />
               <button
                 type="submit"
-                disabled={isLoading || !input.trim()}
+                disabled={isStreaming || !input.trim()}
                 className="bg-primary-600 hover:bg-primary-500 disabled:bg-gray-700 disabled:opacity-50 text-white w-10 h-10 rounded-full flex items-center justify-center transition-colors shrink-0"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
